@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Search Results</title>
+    </head>
+    <body>
+        <h1>Results for "{{ .Query }}"</h1>
+        <ul>
+            {{ range .Results }}
+                <li> "{{ .URL }}" </li>
+            {{ end }}
+        </ul>
+    </body>
+</html>

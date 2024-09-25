@@ -15,7 +15,7 @@ Fields:
 - wordCount: A map where the key is a document identifier (string) and the value is the total count of words (int) in that document.
 - stopWords: A map where the key is a word (string) and the value is an empty struct, representing the collection of stop words.
 */
-type m struct {
+type Maps struct {
 	invIndex  map[string]map[string]int
 	visited   map[string]struct{}
 	wordCount map[string]int
@@ -33,8 +33,8 @@ Returns:
   - wordCount: a map where keys are strings and values are integers.
   - stopWords: a map where keys are strings and values are empty structs.
 */
-func newMaps() *m {
-	m := &m{
+func NewMaps() *Maps {
+	m := &Maps{
 		invIndex:  make(map[string]map[string]int),
 		visited:   make(map[string]struct{}),
 		wordCount: make(map[string]int),
@@ -51,8 +51,8 @@ Function that reads a list of stop words from a file and adds them to the stopWo
 Parameters:
 - m: A pointer to a maps struct.
 */
-func getStopWords(m *m) {
-	fileName := "stopwords-en.txt"
+func getStopWords(m *Maps) {
+	fileName := "project02_utils/stopwords-en.txt"
 
 	if file, err := os.Open(fileName); err == nil {
 		defer file.Close()

@@ -170,10 +170,10 @@ Utilizes download, extract, and clean functions.
 Parameters:
 - url: A string representing the URL of the webpage to crawl.
 */
-func crawl(m *maps) map[string]map[string]int {
+func Crawl(m *Maps) map[string]map[string]int {
 
 	// URL to start crawling from
-	serverStart := "localhost:8080//top10/"
+	serverStart := "https://cs272-f24.github.io/top10/"
 
 	// Initialize the needed structs
 	downloadQueue := []string{}
@@ -223,6 +223,10 @@ func crawl(m *maps) map[string]map[string]int {
 
 			// Add the words to the inverted index
 			for _, word := range words {
+				// Skip stop words
+				if _, ok := m.stopWords[word]; ok {
+					continue
+				}
 				stemmedWord := stem(word)
 				// Check if the word is already in the inverted index
 				// Make a new entry if it is not
