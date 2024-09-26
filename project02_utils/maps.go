@@ -68,3 +68,13 @@ func getStopWords(m *Maps) {
 		log.Fatalf("Error opening file: %v", err)
 	}
 }
+
+func (m Maps) removeStopWords(words []string) []string {
+	var cleanedWords []string
+	for _, word := range words {
+		if _, ok := m.stopWords[word]; !ok {
+			cleanedWords = append(cleanedWords, word)
+		}
+	}
+	return cleanedWords
+}

@@ -221,12 +221,12 @@ func Crawl(m *Maps) map[string]map[string]int {
 				}
 			}
 
+			// Remove stop words from the extracted words
+			words = m.removeStopWords(words)
+
 			// Add the words to the inverted index
 			for _, word := range words {
-				// Skip stop words
-				if _, ok := m.stopWords[word]; ok {
-					continue
-				}
+
 				stemmedWord := stem(word)
 				// Check if the word is already in the inverted index
 				// Make a new entry if it is not
