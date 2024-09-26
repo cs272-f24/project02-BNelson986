@@ -235,6 +235,9 @@ func Crawl(m *Maps) map[string]map[string]int {
 				}
 				// Increment the frequency of the word in the URL
 				m.invIndex[stemmedWord][nextUp]++
+
+				// Increment the total word count of the URL
+				m.wordCount[nextUp]++
 			}
 		} else {
 			log.Printf("Error downloading webpage: %v\n", err)

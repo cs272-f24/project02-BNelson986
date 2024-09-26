@@ -10,10 +10,14 @@ import (
 m represents a data structure for managing an inverted index.
 
 Fields:
-- invIndex: A map where the key is a word (string) and the value is another map. The inner map's key is a document identifier (string) and the value is the count of occurrences (int) of the word in that document.
-- visited: A map where the key is a document identifier (string) and the value is an empty struct, representing the collection of visited documents.
-- wordCount: A map where the key is a document identifier (string) and the value is the total count of words (int) in that document.
-- stopWords: A map where the key is a word (string) and the value is an empty struct, representing the collection of stop words.
+  - invIndex: A map where the key is a word (string) and the value is another map. The inner map's key is
+    a URL (string) and the value is the count of occurrences (int) of the word in that document.
+  - visited: A map where the key is a URL (string) and the value is an empty struct,
+    representing the collection of visited documents.
+  - wordCount: A map where the key is a URL (string) and the value is the total count of
+    words (int) in that document.
+  - stopWords: A map where the key is a word (string) and the value is an empty struct, representing the
+    collection of stop words.
 */
 type Maps struct {
 	invIndex  map[string]map[string]int
@@ -28,10 +32,10 @@ Gathers all stopwords at initialization.
 
 Returns:
 - A pointer to a new instance of the maps struct containing four initialized maps:
-  - invIndex: a map where keys are strings and values are maps of strings to integers.
-  - visited: a map where keys are strings and values are empty structs.
-  - wordCount: a map where keys are strings and values are integers.
-  - stopWords: a map where keys are strings and values are empty structs.
+  - invIndex: a map where keys are words and values are maps of string URLs to integers.
+  - visited: a map where keys are string URLs and values are empty structs.
+  - wordCount: a map where keys are string URLs and values number of words.
+  - stopWords: a map where keys are words and values are empty structs.
 */
 func NewMaps() *Maps {
 	m := &Maps{

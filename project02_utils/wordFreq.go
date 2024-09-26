@@ -59,5 +59,8 @@ Returns:
 - A float64 representing the term frequency-inverse document frequency of the term in the document.
 */
 func tfIdf(m Maps, term, doc string) float64 {
-	return termFreq(m, term, doc) * idf(m, term)
+	score := termFreq(m, term, doc) * idf(m, term)
+
+	// Truncate the score to 4 decimal places
+	return math.Round(score*10000) / 10000
 }

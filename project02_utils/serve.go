@@ -97,7 +97,7 @@ func (s *Server) searchHandler(w http.ResponseWriter, r *http.Request) {
 /*
 Function to serve the search page.
 */
-func Serve(m Maps) {
+func Serve(m *Maps) {
 
 	// Create a new server
 	server := &Server{
@@ -105,7 +105,7 @@ func Serve(m Maps) {
 	}
 
 	http.HandleFunc("/", server.queryForm)
-	http.HandleFunc("/top10/", server.searchHandler)
+	http.HandleFunc("/result", server.searchHandler)
 	go http.ListenAndServe("localhost:8080", nil)
 }
 
