@@ -86,9 +86,9 @@ func TestTfIdf(t *testing.T) {
 		doc      string
 		expected float64
 	}{
-		{"term1", "doc1", math.Round(0.3*math.Log10(2.0/2.0)*10000) / 10000},
-		{"term1", "doc2", math.Round(0.4*math.Log10(2.0/2.0)*10000) / 10000},
-		{"term2", "doc1", math.Round(0.1*math.Log10(2.0/1.0)*10000) / 10000},
+		{"term1", "doc1", math.Round(0.3*math.Log10(2.0/2.0)*places) / places},
+		{"term1", "doc2", math.Round(0.4*math.Log10(2.0/2.0)*places) / places},
+		{"term2", "doc1", math.Round(0.1*math.Log10(2.0/1.0)*places) / places},
 	}
 
 	for _, test := range tests {

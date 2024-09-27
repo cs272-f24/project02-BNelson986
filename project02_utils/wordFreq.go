@@ -4,6 +4,9 @@ import (
 	"math"
 )
 
+// Adjust here to change the number of decimal places to round to
+var places = 1e8
+
 /*
 Function that calculates the term frequency of a term in a document.
 
@@ -61,6 +64,6 @@ Returns:
 func tfIdf(m Maps, term, doc string) float64 {
 	score := termFreq(m, term, doc) * idf(m, term)
 
-	// Truncate the score to 4 decimal places
-	return math.Round(score*10000) / 10000
+	// Truncate the score to 8 decimal places
+	return math.Round(score*places) / places
 }
