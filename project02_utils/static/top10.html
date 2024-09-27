@@ -7,7 +7,7 @@
         <h1>Results for "{{ .Query }}"</h1>
         <ul>
             {{ range .Results }}
-                <li> "{{ .URL }}" </li>
+                <li> "{{ .URL }}" <b>Score: "{{ .Score }}" </b></li>
             {{ end }}
         </ul>
     </body>
