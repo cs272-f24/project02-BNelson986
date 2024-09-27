@@ -9,7 +9,8 @@ func main() {
 	m := p.NewMaps()
 
 	// Create a new instance of the Server struct
-	p.Serve(*m)
+	p.Serve(m)
+	p.Crawl(m)
 
 	for {
 		time.Sleep(1 * time.Second)
