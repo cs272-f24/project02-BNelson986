@@ -20,7 +20,7 @@ func resultCompare(a, b []results) bool {
 		return false
 	}
 	for i := range a {
-		if a[i].url != b[i].url || a[i].score != b[i].score {
+		if a[i].URL != b[i].URL || a[i].Score != b[i].Score {
 			return false
 		}
 	}
@@ -51,7 +51,7 @@ func TestSortResults(t *testing.T) {
 			},
 			query: "term1",
 			expected: []results{
-				{"doc1", 0.0903},
+				{"doc1", 0.09030900},
 			},
 		},
 		{
@@ -68,11 +68,11 @@ func TestSortResults(t *testing.T) {
 			},
 			query: "unique1",
 			expected: []results{
-				{"doc1", 0.0602},
+				{"doc1", 0.06020600},
 			},
 		},
 		{
-			testName: "More that 10 documents",
+			testName: "More than 10 documents",
 			m: &Maps{
 				invIndex: map[string]map[string]int{
 					"term": {
@@ -88,16 +88,16 @@ func TestSortResults(t *testing.T) {
 			},
 			query: "term",
 			expected: []results{
-				{"doc10", 0.0792},
-				{"doc9", 0.0713},
-				{"doc8", 0.0633},
-				{"doc7", 0.0554},
-				{"doc6", 0.0475},
-				{"doc5", 0.0396},
-				{"doc4", 0.0317},
-				{"doc3", 0.0238},
-				{"doc2", 0.0158},
-				{"doc1", 0.0079},
+				{"doc10", 0.07918125},
+				{"doc9", 0.07126312},
+				{"doc8", 0.063345},
+				{"doc7", 0.05542687},
+				{"doc6", 0.04750875},
+				{"doc5", 0.03959062},
+				{"doc4", 0.0316725},
+				{"doc3", 0.02375437},
+				{"doc2", 0.01583625},
+				{"doc1", 0.00791812},
 			},
 		},
 		{
@@ -113,9 +113,9 @@ func TestSortResults(t *testing.T) {
 			},
 			query: "term",
 			expected: []results{
-				{"doc1", 0.0523},
-				{"doc10", 0.0261},
-				{"doc5", 0.0105},
+				{"doc1", 0.05228787},
+				{"doc10", 0.02614394},
+				{"doc5", 0.01045757},
 			},
 		},
 		{
@@ -158,7 +158,7 @@ func TestSortResults(t *testing.T) {
 			},
 			query: "rare",
 			expected: []results{
-				{"doc3", 0.014},
+				{"doc3", 0.0139794},
 			},
 		},
 		{

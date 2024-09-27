@@ -26,7 +26,7 @@ Struct to contain the search query and the list of hits.
 */
 type SearchResponse struct {
 	Query   string
-	Results []string
+	Results []results
 }
 
 /*
@@ -79,11 +79,14 @@ func (s *Server) searchHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Load search results template
-	err := template.New("project02_utils/static/top10.html").Execute(w, resp)
+	tmpl, err := template.ParseFiles("project02_utils/static/top10.html")
 	if err != nil {
 		http.Error(w, "Error loading search results template", http.StatusInternalServerError)
 		return
 	}
+
+	// Execute template with response struct
+	err = tmpl.Execute(w, resp)
 }
 
 /*
@@ -97,7 +100,7 @@ func Serve(m *Maps) {
 	}
 
 	http.HandleFunc("/", server.queryForm)
-	http.HandleFunc("/result", server.searchHandler)
+	http.HandleFunc("/results", server.searchHandler)
 	go http.ListenAndServe("localhost:8080", nil)
 }
 

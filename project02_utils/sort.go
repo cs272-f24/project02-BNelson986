@@ -8,8 +8,8 @@ type sort interface {
 }
 
 type results struct {
-	url   string
-	score float64
+	URL   string
+	Score float64
 }
 
 /*
@@ -20,7 +20,7 @@ func Len(r []results) int {
 }
 
 func Less(r []results, i, j int) bool {
-	return r[i].score < r[j].score
+	return r[i].Score < r[j].Score
 }
 
 func Swap(r []results, i, j int) {
@@ -35,8 +35,8 @@ func Sort(r []results) []results {
 				Swap(r, i, j)
 			}
 			// If the scores are equal, sort by URL
-			if r[i].score == r[j].score {
-				if r[i].url < r[j].url {
+			if r[i].Score == r[j].Score {
+				if r[i].URL < r[j].URL {
 					Swap(r, i, j)
 				}
 			}
@@ -63,7 +63,7 @@ func sortResults(m Maps, query string) []results {
 	for doc := range m.invIndex[query] {
 		// Calculate the tf-idf for the query in the document
 		tfidf := tfIdf(m, query, doc)
-		docScores = append(docScores, results{url: doc, score: tfidf})
+		docScores = append(docScores, results{URL: doc, Score: tfidf})
 	}
 
 	// Sort the results by score

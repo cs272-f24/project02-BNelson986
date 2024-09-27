@@ -171,15 +171,17 @@ Parameters:
 - url: A string representing the URL of the webpage to crawl.
 */
 func Crawl(m *Maps) map[string]map[string]int {
-
-	// Start Crawling from the first URL in the corpus
-	serverStart := m.corpus[0]
-
 	// Initialize the needed structs
 	downloadQueue := []string{}
 
-	// Add the starting URL to the download queue
-	downloadQueue = append(downloadQueue, serverStart)
+	// Start crawling from the first URL in the corpus
+	serverStart := m.corpus[0]
+
+	// Add the remaining URLs to the download queue
+	for _, url := range m.corpus[1:] {
+		downloadQueue = append(downloadQueue, url)
+	}
+
 	m.visited[serverStart] = struct{}{}
 
 	// Extract the origin domain from the starting URL
@@ -258,22 +260,12 @@ Parameters:
 Returns:
 - A slice of the top 10 related URLs where the word appears.
 */
-func search(word string, m *Maps) []string {
+func search(word string, m *Maps) []results {
 	// Stem the word
 	stemmedWord, err := snowball.Stem(word, "english", true)
 	if err != nil {
 		log.Fatalf("Error stemming word: %v", err)
 	}
 
-	results := sortResults(*m, stemmedWord)
-
-	// Parse results with ranking into simple URLs
-	urls := []string{}
-
-	for _, r := range results {
-		urls = append(urls, r.url)
-	}
-
-	// Return top 10 URLs
-	return urls
+	return sortResults(*m, stemmedWord)
 }

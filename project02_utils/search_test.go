@@ -354,6 +354,11 @@ func TestSearch(t *testing.T) {
 		t.Run(tc.name, func(t *testing.T) {
 			// Run the search function and compare the result with the expected result
 			result := search(tc.word, tc.m)
+			urls := []string{}
+
+			for _, r := range result {
+				urls = append(urls, r.URL)
+			}
 			// Same as 'resultCompare' function in sort_test.go
 			if !func(a, b []string) bool {
 				if len(a) != len(b) {
@@ -365,7 +370,7 @@ func TestSearch(t *testing.T) {
 					}
 				}
 				return true
-			}(result, tc.expectedResult) {
+			}(urls, tc.expectedResult) {
 				t.Errorf("expected %v, but got %v", tc.expectedResult, result)
 			}
 		})
