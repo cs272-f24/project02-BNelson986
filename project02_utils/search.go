@@ -172,8 +172,8 @@ Parameters:
 */
 func Crawl(m *Maps) map[string]map[string]int {
 
-	// URL to start crawling from
-	serverStart := "https://cs272-f24.github.io/top10/"
+	// Start Crawling from the first URL in the corpus
+	serverStart := m.corpus[0]
 
 	// Initialize the needed structs
 	downloadQueue := []string{}
@@ -253,21 +253,27 @@ where the word appears.
 
 Parameters:
 - word: A string representing the word to search for.
-- invIndex: A map representing the inverted index.
+- m: A pointer to a maps struct.
 
 Returns:
-- A map of strings to ints showing frequencies of the word in URLs.
+- A slice of the top 10 related URLs where the word appears.
 */
-func search(word string, invIndex map[string]map[string]int) map[string]int {
+func search(word string, m *Maps) []string {
 	// Stem the word
 	stemmedWord, err := snowball.Stem(word, "english", true)
 	if err != nil {
 		log.Fatalf("Error stemming word: %v", err)
 	}
 
-	// Check if the word is in the inverted index
-	if invIndex[stemmedWord] != nil {
-		return invIndex[stemmedWord]
+	results := sortResults(*m, stemmedWord)
+
+	// Parse results with ranking into simple URLs
+	urls := []string{}
+
+	for _, r := range results {
+		urls = append(urls, r.url)
 	}
-	return nil
+
+	// Return top 10 URLs
+	return urls
 }

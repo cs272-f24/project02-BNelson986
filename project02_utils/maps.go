@@ -24,6 +24,7 @@ type Maps struct {
 	visited   map[string]struct{}
 	wordCount map[string]int
 	stopWords map[string]struct{}
+	corpus    []string
 }
 
 /*
@@ -45,6 +46,7 @@ func NewMaps() *Maps {
 		stopWords: make(map[string]struct{}),
 	}
 	getStopWords(m)
+	loadCorpus(m)
 
 	return m
 }
@@ -77,4 +79,21 @@ func (m Maps) removeStopWords(words []string) []string {
 		}
 	}
 	return cleanedWords
+}
+
+/*
+Function that loads the corpus of URLs from a file and adds them to the corpus field in the maps struct.
+
+Parameters:
+- m: A pointer to a maps struct.
+*/
+func loadCorpus(m *Maps) {
+	corpusDoc, err := os.ReadFile("project02_utils/top10Corpus.html")
+	if err != nil {
+		log.Fatalf("Error opening corpus file: %v", err)
+	}
+
+	_, hrefs := extract(corpusDoc)
+
+	m.corpus = hrefs
 }

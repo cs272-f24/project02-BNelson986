@@ -11,7 +11,7 @@ import (
 Struct to contain the inverted index. And share between functions
 */
 type Server struct {
-	invIndex map[string]map[string]int
+	m *Maps
 }
 
 /*
@@ -69,21 +69,13 @@ func (s *Server) searchHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	results := search(query, s.invIndex)
-
-	// Parse results with ranking into simple URLs
-	urls := func(r map[string]int) []string {
-		var urls []string
-		for k := range r {
-			urls = append(urls, k)
-		}
-		return urls
-	}(results)
+	// Search for the query in the inverted index and get the results
+	results := search(query, s.m)
 
 	// Create response struct
 	resp := SearchResponse{
 		Query:   query,
-		Results: urls,
+		Results: results,
 	}
 
 	// Load search results template
@@ -101,7 +93,7 @@ func Serve(m *Maps) {
 
 	// Create a new server
 	server := &Server{
-		invIndex: m.invIndex,
+		m: m,
 	}
 
 	http.HandleFunc("/", server.queryForm)

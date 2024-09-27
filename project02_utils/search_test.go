@@ -5,7 +5,6 @@ import (
 	"net/http"
 	"net/http/httptest"
 	"os"
-	"reflect"
 	"slices"
 	"strings"
 	"testing"
@@ -311,29 +310,33 @@ func TestSearch(t *testing.T) {
 	testCases := []struct {
 		name           string
 		word           string
-		invIndex       map[string]map[string]int
-		expectedResult map[string]int
+		m              *Maps
+		expectedResult []string
 	}{
 		{
 			name: "Word found in index",
 			word: "Test",
-			invIndex: map[string]map[string]int{
-				"test": {
-					"https://example.com/page1": 3,
-					"https://example.com/page2": 1,
+			m: &Maps{
+				invIndex: map[string]map[string]int{
+					"test": {
+						"https://example.com/page1": 3,
+						"https://example.com/page2": 1,
+					},
 				},
 			},
-			expectedResult: map[string]int{
-				"https://example.com/page1": 3,
-				"https://example.com/page2": 1,
+			expectedResult: []string{
+				"https://example.com/page1",
+				"https://example.com/page2",
 			},
 		},
 		{
 			name: "Word not found in index",
 			word: "Nonexistent",
-			invIndex: map[string]map[string]int{
-				"test": {
-					"https://example.com/page1": 3,
+			m: &Maps{
+				invIndex: map[string]map[string]int{
+					"test": {
+						"https://example.com/page1": 3,
+					},
 				},
 			},
 			expectedResult: nil,
@@ -341,7 +344,7 @@ func TestSearch(t *testing.T) {
 		{
 			name:           "Empty inverted index",
 			word:           "test",
-			invIndex:       map[string]map[string]int{},
+			m:              &Maps{invIndex: map[string]map[string]int{}},
 			expectedResult: nil,
 		},
 	}
@@ -350,8 +353,19 @@ func TestSearch(t *testing.T) {
 	for _, tc := range testCases {
 		t.Run(tc.name, func(t *testing.T) {
 			// Run the search function and compare the result with the expected result
-			result := search(tc.word, tc.invIndex)
-			if !reflect.DeepEqual(result, tc.expectedResult) {
+			result := search(tc.word, tc.m)
+			// Same as 'resultCompare' function in sort_test.go
+			if !func(a, b []string) bool {
+				if len(a) != len(b) {
+					return false
+				}
+				for i := range a {
+					if a[i] != b[i] {
+						return false
+					}
+				}
+				return true
+			}(result, tc.expectedResult) {
 				t.Errorf("expected %v, but got %v", tc.expectedResult, result)
 			}
 		})
